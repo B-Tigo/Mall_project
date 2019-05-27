@@ -24,7 +24,7 @@ public interface TbItemMapper {
 
     int updateByExampleSelective(@Param("record") TbItem record, @Param("example") TbItemExample example);
 
-    int updateByExample(@Param("record") TbItem record, @Param("example") TbItemExample example);
+    int updateByExample();
 
     int updateByPrimaryKeySelective(TbItem record);
 

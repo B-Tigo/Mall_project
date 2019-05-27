@@ -1,4 +1,5 @@
 cn\e3mall\controller\ItemController.class
+cn\e3mall\fast\FastDfsTest.class
 cn\e3mall\controller\ItemCatController.class
 cn\e3mall\controller\PictureController.class
 cn\e3mall\controller\PageController.class
