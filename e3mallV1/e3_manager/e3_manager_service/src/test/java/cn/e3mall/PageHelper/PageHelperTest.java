@@ -12,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.util.List;
 
 public class PageHelperTest {
-    @Test
+ /*   @Test
     public void testPageHelper() throws Exception{
         //初始化spring容器
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring/applicationContext-dao.xml");
@@ -28,5 +28,5 @@ public class PageHelperTest {
         System.out.println(pageInfo.getTotal());
         System.out.println(pageInfo.getPages());
         System.out.println(list.size());
-    }
+    }*/
 }

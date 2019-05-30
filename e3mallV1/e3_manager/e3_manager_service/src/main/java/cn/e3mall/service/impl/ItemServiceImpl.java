@@ -135,11 +135,9 @@ public class ItemServiceImpl implements ItemService {
         if(!StringUtils.isEmpty(ids)){
             //将所选id分割
             String[] spilts = ids.split(",");
-            System.out.println(ids);
             //将所有id的商品进行遍历删除
             for (String id:spilts) {
 //                TbItem item = itemMapper.selectByPrimaryKey(Long.valueOf(id));
-//                System.out.println(item);
 //                //进行下架操作，修改status值
 //                ///1-正常，2-下架，3-删除
 //                item.setStatus((byte)3);
