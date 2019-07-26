@@ -4,6 +4,10 @@
     <groupId>cn.e3mall</groupId>
     <artifactId>e3-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>../e3_search</module>
+        <module>../e3_search_web</module>
+    </modules>
 
     <packaging>pom</packaging>
     <!-- 集中定义依赖版本号 -->
