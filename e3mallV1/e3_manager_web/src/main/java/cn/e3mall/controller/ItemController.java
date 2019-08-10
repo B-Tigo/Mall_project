@@ -74,8 +74,8 @@ public class ItemController {
     @RequestMapping("/item/delete")
     @ResponseBody
     public E3Result delete(String ids){
-        System.out.println(ids);
-        System.out.println(StringUtils.isEmpty(ids));
+//        System.out.println(ids);
+//        System.out.println(StringUtils.isEmpty(ids));
         E3Result result = itemService.delete(ids);
         return result;
     }

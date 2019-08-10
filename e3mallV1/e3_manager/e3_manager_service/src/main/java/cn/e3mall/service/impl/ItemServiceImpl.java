@@ -13,11 +13,19 @@ import cn.e3mall.service.ItemService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import javax.jms.*;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
 
 /**
  * 商品管理Service
@@ -30,6 +38,23 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private TbItemDescMapper itemDescMapper;
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
+    @Resource
+    private Destination itemUpdate;
+
+    //发送消息公共代码
+    private void sendUpdateMessage(final long itemId, Destination destination) {
+        jmsTemplate.send(itemUpdate, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage(itemId + "");
+                return textMessage;
+            }
+        });
+    }
 
     @Override
     public TbItem getItemById(long itemId) {
@@ -71,7 +96,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public E3Result addItem(TbItem item, String desc) {
         //生成商品id
-        long itemId = IDUtils.genItemId();
+        final long itemId = IDUtils.genItemId();
         //补全item的属性
         item.setId(itemId);
         //1-正常，2-下架，3-删除
@@ -89,6 +114,15 @@ public class ItemServiceImpl implements ItemService {
         itemDesc.setUpdated(new Date());
         //向商品描述表插入数据
         itemDescMapper.insert(itemDesc);
+        //发送一个商品添加消息,同步索引库
+        /*jmsTemplate.send(itemUpdate, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                TextMessage textMessage = session.createTextMessage(itemId + "");
+                return textMessage;
+            }
+        });*/
+        sendUpdateMessage(itemId, itemUpdate);
         //返回成功
         return E3Result.ok();
     }
@@ -123,6 +157,7 @@ public class ItemServiceImpl implements ItemService {
             createCriteria.andItemIdEqualTo(id);
             itemDescMapper.updateByExampleSelective(itemDesc, tbItemDescExample);
 
+            sendUpdateMessage(item.getId(),itemUpdate);
             return E3Result.ok();
     }
 
@@ -144,6 +179,7 @@ public class ItemServiceImpl implements ItemService {
 //                itemMapper.updateByPrimaryKey(item);
                 itemMapper.deleteByPrimaryKey(Long.valueOf(id));
                 itemDescMapper.deleteByPrimaryKey(Long.valueOf(id));
+                sendUpdateMessage(Long.valueOf(id),itemUpdate);
             }
         }
         return E3Result.ok();
@@ -166,6 +202,7 @@ public class ItemServiceImpl implements ItemService {
                 item.setStatus((byte)2);
                 item.setUpdated(new Date());
                 itemMapper.updateByPrimaryKey(item);
+                sendUpdateMessage(Long.valueOf(id),itemUpdate);
             }
         }
         return E3Result.ok();
@@ -188,6 +225,7 @@ public class ItemServiceImpl implements ItemService {
                 item.setStatus((byte)1);
                 item.setUpdated(new Date());
                 itemMapper.updateByPrimaryKey(item);
+                sendUpdateMessage(Long.valueOf(id),itemUpdate);
             }
         }
         return E3Result.ok();
