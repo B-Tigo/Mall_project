@@ -1,21 +1,10 @@
 package cn.e3mall.common.jedis;
 
-import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisPool;
+import java.util.List;
 
 public interface JedisClient {
 
-    JedisCluster getJedisCluster();
-
-    void setJedisCluster(JedisCluster jedisCluster);
-
-    void setJedisPool(JedisPool jedisPool);
-
-    JedisPool getJedisPool();
-
-    JedisPool setJedisPool();
-
-    String set(String key, String value);
+	String set(String key, String value);
 	String get(String key);
 	Boolean exists(String key);
 	Long expire(String key, int seconds);
@@ -24,4 +13,7 @@ public interface JedisClient {
 	Long hset(String key, String field, String value);
 	String hget(String key, String field);
 	Long hdel(String key, String... field);
+	Boolean hexists(String key, String field);
+	List<String> hvals(String key);
+	Long del(String key);
 }

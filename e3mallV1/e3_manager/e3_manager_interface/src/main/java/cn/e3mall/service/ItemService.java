@@ -17,4 +17,6 @@ public interface ItemService {
     E3Result delete(String ids);
     E3Result instock(String ids);
     E3Result reshelf(String ids);
+
+    TbItemDesc getItemDescById(Long itemId);
 }
