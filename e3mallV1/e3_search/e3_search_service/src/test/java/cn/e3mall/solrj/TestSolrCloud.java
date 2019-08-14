@@ -13,7 +13,7 @@ public class TestSolrCloud {
     @Test
     public void testAddDocument() throws Exception {
         //创建一个集群的连接，应该使用CloudSolrCloud
-        CloudSolrServer solrServer = new CloudSolrServer("192.168.25.130:2181,192.168.25.130:2182,192.168.25.130:2183");
+        CloudSolrServer solrServer = new CloudSolrServer("192.168.25.129:2181,192.168.25.129:2182,192.168.25.129:2183");
         //zkHost：zookeeper的地址列表
         //设置一个defaultCollection属性
         solrServer.setDefaultCollection("collection2");
@@ -32,7 +32,7 @@ public class TestSolrCloud {
     @Test
     public void testQueryDocument() throws Exception {
         //创建一个CloudSolrServer对象
-        CloudSolrServer cloudSolrServer = new CloudSolrServer("192.168.25.130:2181,192.168.25.130:2182,192.168.25.130:2183");
+        CloudSolrServer cloudSolrServer = new CloudSolrServer("192.168.25.129:2181,192.168.25.129:2182,192.168.25.129:2183");
         //设置默认的collection
         cloudSolrServer.setDefaultCollection("collection2");
         //设置一个查询对象
