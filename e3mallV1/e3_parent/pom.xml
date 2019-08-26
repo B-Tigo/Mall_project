@@ -7,6 +7,8 @@
     <modules>
         <module>../e3_search</module>
         <module>../e3_search_web</module>
+        <module>../e3_sso</module>
+        <module>../e3_sso_web</module>
     </modules>
 
     <packaging>pom</packaging>
